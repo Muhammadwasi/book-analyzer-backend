@@ -3,8 +3,6 @@ from client.grok import GroqClient
 from book.prompts import get_first_prompt_with_text, get_subsequent_prompt_with_text
 from collections import defaultdict
 from book.utils import extract_json, split_into_max_token_chunks
-import time
-
 
 def analyze_book_using_llm(text: str) -> dict:
     chunks = split_into_max_token_chunks(text=text, max_tokens=20000)
@@ -22,7 +20,6 @@ def analyze_chunks_using_llm(chunks):
         response = groq.ask_as_user(get_first_prompt_with_text(chunks[0]))
         responses.append(response)
         for chunk in chunks[1:]:
-            time.sleep(30)
             response = groq.ask_as_user(get_subsequent_prompt_with_text(chunk))
             responses.append(response)
 
